@@ -7,13 +7,14 @@
 import autograd.numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+from IPython.display import display, clear_output
 
 
 plt.rcParams["text.usetex"] = True
 plt.rcParams["text.latex.preamble"] = "\\usepackage{{sansmath}}\\sansmath"
 plt.rcParams["font.family"] = "sans-serif"
 plt.rcParams["font.sans-serif"] = "Helvetica"
-plt.rcParams["figure.raise_window"] = False
+# plt.rcParams["figure.raise_window"] = False
 
 
 class TrackingMixin:
@@ -113,6 +114,7 @@ class TrackingMixin:
         # plot, not in the data.
         for l in range(self._d):
             ax = self._fig_fit.add_subplot(U, V, l + 1)
+            ax.cla()
             ax.plot(range(1, T + 1), Y[l, :T], color="#004488", alpha=0.5)
             ax.plot(
                 range(T + 1, T + n_pred + 1),
@@ -127,7 +129,9 @@ class TrackingMixin:
                 linestyle="dashed",
             )
             ax.axis("off")
-
+        display(self._fig_fit)
+    
+        clear_output(wait = True)
         plt.pause(0.01)
 
     def figure_subspace_update(self, T, x_true=None):
@@ -146,6 +150,8 @@ class TrackingMixin:
             ax = self._fig_subspace.add_subplot(
                 2, int((self._r + 1) / 2), l + 1
             )
+            ax.cla()
+
             if x_true:
                 pl = np.argmin(
                     [
@@ -161,7 +167,9 @@ class TrackingMixin:
             else:
                 ax.plot(np.squeeze(X_pred[l, :]), "--", color="#bb5566")
             ax.axis("off")
-
+        display(self._fig_subspace)
+    
+        clear_output(wait = True)
         plt.pause(0.01)
 
     def figure_error_update(self):
@@ -183,9 +191,13 @@ class TrackingMixin:
         self._fig_error.clf()
         for l in range(len(err)):
             ax = self._fig_error.add_subplot(len(err), 1, l + 1)
+            ax.cla()
+
             ax.plot(idx, err[l])
             ax.title.set_text(titles[l])
-
+        display(self._fig_error)
+    
+        clear_output(wait = True)
         plt.pause(0.01)
 
     def figure_save(
