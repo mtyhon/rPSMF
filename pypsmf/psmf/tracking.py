@@ -115,9 +115,17 @@ class TrackingMixin:
         Y_pred = np.asarray(
             [self._y_pred[t] for t in range(1, T + n_pred + 1)]
         )
+     
+            
         Y_pred = Y_pred.squeeze().T
+        if len(Y.shape) == 1:
+            Y = Y.reshape(1,-1)
+            Y_pred = Y_pred.reshape(1,-1)         
 
-        U, V = sorted(self._plot_dims(self._d))
+        if self._d == 1:
+            U = V = 1
+        else:
+            U, V = sorted(self._plot_dims(self._d))
 
         # Colors come from the "high-contrast" color scheme of
         # https://personal.sron.nl/~pault/data/colourschemes.pdf
