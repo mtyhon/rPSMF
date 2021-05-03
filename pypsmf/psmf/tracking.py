@@ -64,6 +64,8 @@ class TrackingMixin:
     def errors_update(self, i, y, T, n_pred, theta_true=None):
         Y_pred = np.array([self._y_pred[k] for k in range(1, T + n_pred + 1)])
         Y_true = np.array([y[k] for k in range(1, T + n_pred + 1)])
+        print('Y_pred size: ', Y_pred.shape)
+        print('Y_true size: ', Y_true.shape)
 
         Y_pred = Y_pred.squeeze().T
         Y_true = Y_true.squeeze().T
