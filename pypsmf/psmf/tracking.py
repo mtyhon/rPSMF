@@ -54,9 +54,11 @@ class TrackingMixin:
         Y_pred = self.C0 @ np.zeros((self._r, T + n_pred))
         Y_real = np.array([y[k] for k in range(1, T + n_pred + 1)])
         Y_real = Y_real.squeeze().T
+        if len(Y_real.shape) == 1:
+            Y_real = Y_real.reshape(1,-1)
         
-        print('Y_pred size: ', Y_pred.shape)
-        print('Y_real size: ', Y_real.shape)
+#         print('Y_pred size: ', Y_pred.shape)
+#         print('Y_real size: ', Y_real.shape)
 
         self._E_y[0] = np.linalg.norm(Y_pred - Y_real).item()
         self._E_train[0] = np.linalg.norm(Y_pred[:, :T] - Y_real[:, :T]).item()
@@ -67,11 +69,15 @@ class TrackingMixin:
     def errors_update(self, i, y, T, n_pred, theta_true=None):
         Y_pred = np.array([self._y_pred[k] for k in range(1, T + n_pred + 1)])
         Y_true = np.array([y[k] for k in range(1, T + n_pred + 1)])
-        print('Y_pred size: ', Y_pred.shape)
-        print('Y_true size: ', Y_true.shape)
+#         print('Y_pred size: ', Y_pred.shape)
+#         print('Y_true size: ', Y_true.shape)
 
         Y_pred = Y_pred.squeeze().T
         Y_true = Y_true.squeeze().T
+        
+        if len(Y_pred.shape) == 1:
+            Y_pred = Y_pred.reshape(1,-1)
+            Y_true = Y_true.reshape(1,-1)
 
         self._E_y[i] = np.linalg.norm(Y_pred - Y_true).item()
         self._E_train[i] = np.linalg.norm(Y_pred[:, :T] - Y_true[:, :T]).item()
