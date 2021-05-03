@@ -93,8 +93,8 @@ class TrackingMixin:
         if not live_plot:
             return
         self.figure_fit_update(y_obs, n_pred, T)
-        self.figure_subspace_update(T, x_true=x_true)
-        self.figure_error_update()
+#         self.figure_subspace_update(T, x_true=x_true)
+#         self.figure_error_update()
 
     def figure_fit_update(self, y_obs, n_pred, T):
         self._fig_fit.clf()
