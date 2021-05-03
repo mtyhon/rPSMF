@@ -56,7 +56,7 @@ class TrackingMixin:
         Y_real = Y_real.squeeze().T
         
         print('Y_pred size: ', Y_pred.shape)
-        print('Y_true size: ', Y_true.shape)
+        print('Y_real size: ', Y_real.shape)
 
         self._E_y[0] = np.linalg.norm(Y_pred - Y_real).item()
         self._E_train[0] = np.linalg.norm(Y_pred[:, :T] - Y_real[:, :T]).item()
